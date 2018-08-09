@@ -1,0 +1,14 @@
+## 商品
+CREATE TABLE IF NOT EXISTS `shopping_info`(
+  `shopping_id` INT UNSIGNED NOT NULL,
+  `user_id` TINYINT UNSIGNED NOT NULL, # 发布人id，可重复
+  `shopping_name` VARCHAR(20) NOT NULL, # 商品名称 ----> 要改 40
+  `price` INT UNSIGNED NOT NULL, # 价格  +++++++ 要添加运费
+  `count` INT UNSIGNED NOT NULL, # 商品数量
+  `store` INT UNSIGNED NULL, # 储量
+  `desc` VARCHAR(200), # 商品描述 ----> 要改 600
+  `location` VARCHAR(70) NOT NULL, # 发布地点 -----> 140
+  `university` VARCHAR(16), # 发布的大学
+  `type` TINYINT UNSIGNED NOT NULL, # 类型
+  PRIMARY KEY ( `shopping_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

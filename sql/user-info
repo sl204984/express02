@@ -1,0 +1,44 @@
+CREATE DATABASE shoppingProject;
+
+USE shoppingProject;
+
+## 用户信息 
+## alter table user_base_info change id id int not null auto_increment;
+## alter table user_base_info auto_increment=1;
+CREATE TABLE `user_base_info` (
+	`id` int(11) NOT NULL,
+	`user_id` varchar(16) NOT NULL,
+	`nickname` varchar(32) NOT NULL,
+	`avatar` varchar(100) NOT NULL,
+	`token` varchar(20) NULL,
+	`password` varchar(20) NOT NULL,
+	`submission_date` date NOT NULL,
+	`mobile` varchar(11) NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+## 用户其他信息
+CREATE TABLE `user_member_info` (
+	`user_id` int(11) NOT NULL,
+	`credit` tinyint NULL,
+	`balance` int(11) NULL,
+	`gender` boolean NULL,
+	`birthday` date NULL,
+	`resident_address` varchar(100) NULL,
+	`university` varchar(40) NULL,
+	`member` boolean NULL,
+	`thumbs` smallint NULL,
+	`attention` smallint NULL,
+	`fans` smallint NULL,
+	PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+## 用户收货地址
+CREATE TABLE IF NOT EXISTS `shipping_address`(
+  `user_id` int(11) NOT NULL,
+  `address` varchar(100) NULL, # 收货地址
+  `is_default` boolean NOT NULL, # 是否为默认收货地址
+) ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
