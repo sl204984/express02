@@ -40,6 +40,11 @@ app.use("/static/avatar", express.static(__dirname + `/${CONFIG.static}/avatar`)
 app.use("/static/icons", express.static(__dirname + `/${CONFIG.static}/icons`));
 app.use("/static/shopping", express.static(__dirname + `/${CONFIG.static}/shopping`));
 
+// 下载文件
+app.get('/downloadapk', function (req, res) {
+  res.download('static/app/app-release.apk');
+});
+
 app.listen(CONFIG.port);
 console.log('listening to port ' + CONFIG.port);
 
