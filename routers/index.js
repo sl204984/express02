@@ -1,4 +1,5 @@
 const express = require('express');
+const CONFIG = require('../config');
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ router.get('/', (req, res) => {
   res.json({
     name: '梁静茹'
   });
-})
+});
 
 router.post('/', (req, res) => {
   console.log(req.body);
@@ -16,7 +17,7 @@ router.post('/', (req, res) => {
   res.json({
     name: '梁静茹'
   });
-})
+});
 
 router.put('/', (req, res) => {
   res.json({
@@ -24,7 +25,7 @@ router.put('/', (req, res) => {
   });
   console.log(req.body);
   console.log(req.cookies);
-})
+});
 
 router.delete('/', (req, res) => {
   res.json({
@@ -33,6 +34,12 @@ router.delete('/', (req, res) => {
   });
   console.log(req.body);
   console.log(req.cookies);
-})
+});
+
+router.get('/app', (req, res) => {
+  res.json({
+    version: CONFIG.version
+  })
+});
 
 module.exports = router;

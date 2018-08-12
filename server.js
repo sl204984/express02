@@ -7,6 +7,7 @@ const CONFIG = require('./config');
 // 数据库
 // const db = require('./mysql');
 // 各个路由
+const indexRouter = require('./routers');
 const usersRouter = require('./routers/users');
 const loginRouter = require('./routers/login');
 const uploadRouter = require('./routers/upload');
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/upload', uploadRouter);
@@ -39,11 +41,6 @@ app.use('/search', searchRouter);
 app.use("/static/avatar", express.static(__dirname + `/${CONFIG.static}/avatar`));
 app.use("/static/icons", express.static(__dirname + `/${CONFIG.static}/icons`));
 app.use("/static/shopping", express.static(__dirname + `/${CONFIG.static}/shopping`));
-
-// 下载文件
-app.get('/downloadapk', function (req, res) {
-  res.download('static/app/app-release.apk');
-});
 
 app.listen(CONFIG.port);
 console.log('listening to port ' + CONFIG.port);
