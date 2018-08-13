@@ -3,42 +3,38 @@ CREATE DATABASE shoppingProject;
 USE shoppingProject;
 
 ## 用户信息 
-## alter table user_base_info change id id int not null auto_increment;
-## alter table user_base_info auto_increment=1;
 CREATE TABLE `user_base_info` (
-	`id` int(11) NOT NULL,
-	`user_id` varchar(16) NOT NULL,
-	`nickname` varchar(32) NOT NULL,
-	`avatar` varchar(100) NOT NULL,
-	`token` varchar(20) NULL,
-	`password` varchar(20) NOT NULL,
-	`submission_date` date NOT NULL,
-	`mobile` varchar(11) NOT NULL,
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(16) NOT NULL,
+  `nickname` varchar(32) NOT NULL,
+  `avatar` varchar(100) NOT NULL,
+  `token` varchar(20) DEFAULT NULL,
+  `password` varchar(20) NOT NULL,
+  `submission_date` date NOT NULL,
+  `mobile` varchar(11) NOT NULL,
+  `credit` tinyint(4) unsigned DEFAULT '100',
+  PRIMARY KEY (`id`,`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4294967295 DEFAULT CHARSET=utf8
 
 ## 用户其他信息
 CREATE TABLE `user_member_info` (
-	`user_id` int(11) NOT NULL,
-	`credit` tinyint NULL,
-	`balance` int(11) NULL,
-	`gender` boolean NULL,
-	`birthday` date NULL,
-	`resident_address` varchar(100) NULL,
-	`university` varchar(40) NULL,
-	`member` boolean NULL,
-	`thumbs` smallint NULL,
-	`attention` smallint NULL,
-	`fans` smallint NULL,
-	PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+  `user_id` varchar(20) NOT NULL,
+  `balance` int(11) DEFAULT NULL,
+  `gender` tinyint(1) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `resident_address` varchar(100) DEFAULT NULL,
+  `university` varchar(40) DEFAULT NULL,
+  `member` tinyint(1) DEFAULT NULL,
+  `thumbs` smallint(6) DEFAULT NULL,
+  `attention` smallint(6) DEFAULT NULL,
+  `fans` smallint(6) DEFAULT NULL,
+  `qq` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 ## 用户收货地址
-CREATE TABLE IF NOT EXISTS `shipping_address`(
-  `user_id` int(11) NOT NULL,
-  `address` varchar(100) NULL, # 收货地址
-  `is_default` boolean NOT NULL, # 是否为默认收货地址
-) ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE `shipping_address` (
+  `user_id` varchar(20) NOT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `is_default` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
