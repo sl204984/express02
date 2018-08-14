@@ -6,7 +6,7 @@ const select = function ({
   columns = []
 } = {}) {
   let columnName;
-  if (columns.length === 0) {
+  if (columns.length !== 0) {
     columnName = columns.join(',')
   } else {
     columnName = '*';
@@ -17,6 +17,14 @@ const select = function ({
       results,
       fields
     } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause}`);
+
+    console.log('select');
+
+    console.log(
+      err,
+      results
+    );
+    console.log('~~~~~~~~~~~~~~~~');
 
     resolve({
       err,
@@ -35,7 +43,7 @@ const limitSelect = function ({
   limit = 10
 } = {}) {
   let columnName;
-  if (columns.length === 0) {
+  if (columns.length !== 0) {
     columnName = columns.join(',')
   } else {
     columnName = '*';

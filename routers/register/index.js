@@ -18,8 +18,8 @@ router.post('/', async (req = {}, res) => {
 
   const {
     err: errSelect,
-    resultsSelect
-  } = db.select({
+    results: resultsSelect
+  } = await db.select({
     tableName: 'user_base_info',
     clause: `nickname="${nickname}"`,
   });
@@ -32,7 +32,8 @@ router.post('/', async (req = {}, res) => {
     });
     return;
   }
-  if (resultsSelect) {
+  console.log('resultsSelect', resultsSelect);
+  if (resultsSelect.length > 0) {
     res.json({
       data: '', // 返回的数据
       status: 0, // 状态码
@@ -65,7 +66,7 @@ router.post('/', async (req = {}, res) => {
     }
   });
 
-  if (err) {
+  if (errInsert) {
     res.json({
       data: '',
       status: 0,
