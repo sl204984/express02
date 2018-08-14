@@ -18,14 +18,6 @@ const select = function ({
       fields
     } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause}`);
 
-    console.log('select');
-
-    console.log(
-      err,
-      results
-    );
-    console.log('~~~~~~~~~~~~~~~~');
-
     resolve({
       err,
       results,

@@ -8,13 +8,12 @@ const db = require('../../mysql');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
-  // console.log('req', req);
   const {
     nickname,
     password,
     mobile,
     submissionDate
-  } = req.query || {};
+  } = req.body || {};
 
   const {
     err: errSelect,
@@ -32,7 +31,6 @@ router.post('/', async (req = {}, res) => {
     });
     return;
   }
-  console.log('resultsSelect', resultsSelect);
   if (resultsSelect.length > 0) {
     res.json({
       data: '', // 返回的数据
