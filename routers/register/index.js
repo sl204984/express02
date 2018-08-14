@@ -14,13 +14,12 @@ router.post('/', async (req = {}, res) => {
     mobile,
     submissionDate
   } = req.body || {};
-
   const {
     err: errSelect,
     results: resultsSelect
   } = await db.select({
     tableName: 'user_base_info',
-    clause: `nickname="${nickname}"`,
+    clause: `nickname="${nickname}" OR mobile="${mobile}"`
   });
   if (errSelect) {
     res.json({
@@ -32,10 +31,29 @@ router.post('/', async (req = {}, res) => {
     return;
   }
   if (resultsSelect.length > 0) {
+    for (let item of resultsSelect) {
+      if (item.nickname === nickname) {
+        res.json({
+          data: '', // 返回的数据
+          status: 0, // 状态码
+          statusInfo: '该用户已经存在',
+          ok: false
+        });
+        return;
+      } else if (item.mobile === mobile) {
+        res.json({
+          data: '', // 返回的数据
+          status: 0, // 状态码
+          statusInfo: '该手机号已经被注册',
+          ok: false
+        });
+        return;
+      }
+    }
     res.json({
       data: '', // 返回的数据
       status: 0, // 状态码
-      statusInfo: '该用户已经存在',
+      statusInfo: '该手机号已经被注册',
       ok: false
     });
     return;
