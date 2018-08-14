@@ -1,3 +1,6 @@
 const isArray = require('./isArray');
-
-exports.isArray = isArray;
+const createId = require('./uid');
+module.exports = {
+  isArray,
+  createId
+};

@@ -5,7 +5,7 @@ USE shoppingProject;
 ## 用户信息 
 CREATE TABLE `user_base_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(16) NOT NULL,
+  `user_id` varchar(20) NOT NULL,
   `nickname` varchar(32) NOT NULL,
   `avatar` varchar(100) NOT NULL,
   `token` varchar(20) DEFAULT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE `user_base_info` (
   `mobile` varchar(11) NOT NULL,
   `credit` tinyint(4) unsigned DEFAULT '100',
   PRIMARY KEY (`id`,`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4294967295 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 ## 用户其他信息
 CREATE TABLE `user_member_info` (
