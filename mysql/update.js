@@ -4,18 +4,30 @@ const update = function ({
   tableName,
   clause,
   data = {},
-} = {}, callback) {
-  if (!data || Object.keys(data).length === 0) {
-    typeof callback === "function" && callback('err');
-    return;
-  }
-  let fields = '';
-  for (let key in data) {
-    fields += `${key}="${data[key]}",`;
-  }
-  fields.substring(0, fields.length - 1);
-  db.query(`UPDATE ${tableName} SET ${fields} WHERE ${clause}`, (err, vals, fields) => {
-    typeof callback === "function" && callback(err, vals, fields);
+} = {}) {
+  return new Promise(async (resolve) => {
+    if (!data || Object.keys(data).length === 0) {
+      resolve({
+        err: '数据库修改错误~'
+      });
+      return;
+    }
+    let _fields = '';
+    for (let key in data) {
+      _fields += `${key}="${data[key]}",`;
+    }
+    _fields.substring(0, _fields.length - 1);
+
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`UPDATE ${tableName} SET ${_fields} WHERE ${clause}`);
+    resolve({
+      err,
+      results,
+      fields
+    });
   });
 }
 

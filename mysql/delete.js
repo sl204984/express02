@@ -3,11 +3,25 @@ const db = require('./db-conn');
 const del = function ({
   tableName,
   clause
-} = {}, callback) {
+} = {}) {
+  return new Promise(async (resolve) => {
+    if (clause === null || clause.indexOf('=') === -1) {
+      resolve({
+        err: '数据库删除错误~'
+      });
+    }
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`DELETE FROM ${tableName} WHERE ${clause}`);
+    resolve({
+      err,
+      results,
+      fields
+    });
+  })
 
-  db.query(`DELETE FROM ${tableName} WHERE ${clause}`, (err, vals, fields) => {
-    typeof callback === "function" && callback(err, vals, fields);
-  });
 }
 
 module.exports = {
