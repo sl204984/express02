@@ -45,10 +45,8 @@ router.post('/', async (req = {}, res) => {
     credit
   } = resultsSelect[0];
   const token = md5(submitDate);
-
   const {
-    err: errUpdate,
-    results: resultsUpdate
+    err: errUpdate
   } = await db.update({
     tableName: 'user_base_info',
     clause: `user_id="${userId}"`,
@@ -57,7 +55,6 @@ router.post('/', async (req = {}, res) => {
     }
   });
   if (errUpdate) {
-    // console.log(errUpdate);
     res.json({
       data: '',
       status: 0,
@@ -66,12 +63,6 @@ router.post('/', async (req = {}, res) => {
     });
     return;
   }
-  /*
-  
-  tableName,
-  clause,
-  data = {},*/
-
   res.json({
     data: {
       nickname,
