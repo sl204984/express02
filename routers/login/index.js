@@ -1,20 +1,15 @@
 const express = require('express');
+var md5 = require('md5-node');
+
+
+const {
+  createId
+} = require('../../utils');
 // 数据库
 // const db = require('../../mysql');
 
 const router = express.Router();
 // const tableName = 'user_info'; // 表的名称
-
-router.get('/', (req, res) => {
-  console.log(req.body);
-  console.log(req.cookies);
-  res.json({
-    name: '梁静茹get'
-  });
-  // db.query(`SELECT * FROM ${tableName}`, (err, vals) => {
-  //   console.log(err, vals);
-  // });
-});
 
 // 增
 router.post('/', (req, res) => {
@@ -43,6 +38,29 @@ router.delete('/', (req, res) => {
   });
   console.log(req.body);
   console.log(req.cookies);
+});
+
+router.get('/', (req = {}, res) => {
+  // console.log('req', req);
+  const {
+    password,
+    mobile,
+    loginDate
+  } = req;
+  const idLen = 20;
+  const timeStamp = (new Date()).getTime().toString(16);
+  const randomId = createId(idLen - timeStamp.length); // 1是 splitIndex 的长度
+  const id = randomId + timeStamp;
+  const token = md5(loginDate, password, mobile, id);
+
+  res.json({
+    data: {
+      id: randomId + timeStamp
+    }, // 返回的数据
+    status: 0, // 状态码
+    statusInfo: '',
+    ok: true
+  })
 });
 
 module.exports = router;

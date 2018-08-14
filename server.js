@@ -9,6 +9,7 @@ const CONFIG = require('./config');
 // 各个路由
 const indexRouter = require('./routers');
 const usersRouter = require('./routers/users');
+const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
 const uploadRouter = require('./routers/upload');
 const homeRouter = require('./routers/home-page');
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/upload', uploadRouter);
 app.use('/home', homeRouter);
