@@ -1,66 +1,92 @@
 const express = require('express');
 var md5 = require('md5-node');
-
-
 const {
   createId
 } = require('../../utils');
-// 数据库
-// const db = require('../../mysql');
+const db = require('../../mysql');
 
 const router = express.Router();
-// const tableName = 'user_info'; // 表的名称
 
-// 增
-router.post('/', (req, res) => {
-  console.log(req.body);
-  console.log(req.cookies);
-  res.json({
-    name: '梁静茹post'
-  });
-  // db.query(`INSERT INTO ${tableName} ()`);
-});
-
-// 改 INSERT INTO user_info (nickname,password,submission_date,tel) VALUES ("鑫鑫","123456","2018-06-14","17712345678");
-router.put('/', (req, res) => {
-  res.json({
-    name: '梁静茹put'
-  });
-  console.log(req.body);
-  console.log(req.cookies);
-});
-
-// 删
-router.delete('/', (req, res) => {
-  res.json({
-    song: '勇气',
-    singer: '梁静茹delete'
-  });
-  console.log(req.body);
-  console.log(req.cookies);
-});
-
-router.get('/', (req = {}, res) => {
-  // console.log('req', req);
+router.post('/', async (req = {}, res) => {
   const {
+    nickname,
     password,
+    submitDate
+  } = req.body || {};
+  const {
+    err: errSelect,
+    results: resultsSelect
+  } = await db.select({
+    tableName: 'user_base_info',
+    clause: `nickname="${nickname}" AND password="${password}"`
+  });
+  if (errSelect || resultsSelect.length > 1) {
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '数据库查询异常~',
+      ok: false
+    });
+    return;
+  }
+  if (resultsSelect.length === 0) {
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '用户名或密码错误~',
+      ok: false
+    });
+    return;
+  }
+  const {
+    avatar,
     mobile,
-    loginDate
-  } = req;
-  const idLen = 20;
-  const timeStamp = (new Date()).getTime().toString(16);
-  const randomId = createId(idLen - timeStamp.length); // 1是 splitIndex 的长度
-  const id = randomId + timeStamp;
-  const token = md5(loginDate, password, mobile, id);
+    user_id: userId,
+    credit
+  } = resultsSelect[0];
+  const token = md5(submitDate);
+
+  const {
+    err: errUpdate,
+    results: resultsUpdate
+  } = await db.update({
+    tableName: 'user_base_info',
+    clause: `user_id="${userId}"`,
+    data: {
+      token
+    }
+  });
+  if (errUpdate) {
+    // console.log(errUpdate);
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '数据库修改异常~',
+      ok: false
+    });
+    return;
+  }
+  /*
+  
+  tableName,
+  clause,
+  data = {},*/
 
   res.json({
     data: {
-      id: randomId + timeStamp
+      nickname,
+      password,
+      submitDate,
+      avatar,
+      mobile,
+      token,
+      userId,
+      credit // 信用值
     }, // 返回的数据
     status: 0, // 状态码
     statusInfo: '',
     ok: true
-  })
+  });
 });
 
 module.exports = router;

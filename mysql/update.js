@@ -16,8 +16,7 @@ const update = function ({
     for (let key in data) {
       _fields += `${key}="${data[key]}",`;
     }
-    _fields.substring(0, _fields.length - 1);
-
+    _fields = _fields.substring(0, _fields.length - 1);
     const {
       err,
       results,
