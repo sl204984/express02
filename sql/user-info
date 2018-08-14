@@ -8,7 +8,7 @@ CREATE TABLE `user_base_info` (
   `user_id` varchar(20) NOT NULL,
   `nickname` varchar(32) NOT NULL,
   `avatar` varchar(100) NOT NULL,
-  `token` varchar(20) DEFAULT NULL,
+  `token` varchar(32) NOT NULL,
   `password` varchar(20) NOT NULL,
   `submission_date` date NOT NULL,
   `mobile` varchar(11) NOT NULL,

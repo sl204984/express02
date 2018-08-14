@@ -4,16 +4,28 @@ const select = function ({
   tableName,
   clause,
   columns = []
-} = {}, callback) {
+} = {}) {
   let columnName;
   if (columns.length === 0) {
     columnName = columns.join(',')
   } else {
     columnName = '*';
   }
-  db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause}`, (err, vals, fields) => {
-    typeof callback === "function" && callback(err, vals, fields);
+  return new Promise(async (resolve) => {
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause}`);
+
+    resolve({
+      err,
+      results,
+      fields
+    });
   });
+
+
 }
 
 const limitSelect = function ({
@@ -21,16 +33,28 @@ const limitSelect = function ({
   clause,
   columns = [],
   limit = 10
-} = {}, callback) {
+} = {}) {
   let columnName;
   if (columns.length === 0) {
     columnName = columns.join(',')
   } else {
     columnName = '*';
   }
-  db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause} LIMIT ${limit}`, (err, vals, fields) => {
-    typeof callback === "function" && callback(err, vals, fields);
+
+  return new Promise(async (resolve) => {
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause} LIMIT ${limit}`);
+
+    resolve({
+      err,
+      results,
+      fields
+    });
   });
+
 }
 
 module.exports = {

@@ -11,18 +11,26 @@ const pool = mysql.createPool({
   port: 3306
 });
 
-function query(sql, callback) {
-  pool.getConnection(function (err, connection) {
-    if (err) {
-      callback(err);
-    } else {
-      // Use the connection
-      connection.query(sql, function (qerr, results, fields) {
-        // 事件驱动回调
-        callback(qerr, results, fields);
-        connection.release(); // 释放链接
-      });
-    }
+function query(sql) {
+  return new Promise((resolve, reject) => {
+    pool.getConnection(function (err, connection) {
+      if (err) {
+        resolve({
+          err: '数据库连接异常'
+        });
+      } else {
+        // Use the connection
+        connection.query(sql, function (qerr, results, fields) {
+          // 事件驱动回调
+          resolve({
+            err: qerr,
+            results,
+            fields
+          });
+          connection.release(); // 释放链接
+        });
+      }
+    });
   });
 }
 

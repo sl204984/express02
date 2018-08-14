@@ -3,36 +3,67 @@ const db = require('./db-conn');
 const insert = function ({
   tableName,
   data
-} = {}, callback) {
-  if (!data || Object.keys(data).length === 0) {
-    typeof callback === "function" && callback('err');
-    return;
-  }
-  let fields = `(${Object.keys(data).join(',')})`;
-  let values = `("${Object.values(data).join('","')}")`;
+} = {}) {
+  return new Promise(async (resolve) => {
 
-  db.query(`INSERT INTO ${tableName} (${fields}) VALUES (${values})`, (err, vals, fields) => {
-    typeof callback === "function" && callback(err, vals, fields);
+    if (!data || Object.keys(data).length === 0) {
+      resolve({
+        err: '系统错误'
+      });
+      return;
+    }
+
+    let _fields = `(${Object.keys(data).join(',')})`;
+    let _values = `("${Object.values(data).join('","')}")`;
+
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`INSERT INTO ${tableName} ${_fields} VALUES ${_values}`);
+
+    resolve({
+      err,
+      results,
+      fields
+    });
+
   });
 }
 
 const batchInsert = function ({
   tableName,
   data
-} = {}, callback) {
-  if (!data || data.length === 0 || Object.keys(data[0]).length === 0) {
-    typeof callback === "function" && callback('err');
-    return;
-  }
-  let fields = `(${Object.keys(data[0]).join(',')})`;
-  let values = '';
-  for (let item of data) {
-    values += `("${Object.values(item).join('","')}"),`;
-  }
-  values = values.substring(0, values.length - 1);
-  db.query(`INSERT INTO ${tableName} ${fields} VALUES ${values}`, (err, vals, fields) => {
-    typeof callback === 'function' && callback(err, vals, fields);
-  })
+} = {}) {
+
+  return new Promise(async (resolve) => {
+    if (!data || data.length === 0 || Object.keys(data[0]).length === 0) {
+      resolve({
+        err: '系统错误'
+      });
+      return;
+    }
+
+    let _fields = `(${Object.keys(data[0]).join(',')})`;
+    let _values = '';
+    for (let item of data) {
+      _values += `("${Object.values(item).join('","')}"),`;
+    }
+    _values = _values.substring(0, _values.length - 1);
+
+    const {
+      err,
+      results,
+      fields
+    } = await db.query(`INSERT INTO ${tableName} ${_fields} VALUES ${_values}`);
+
+    resolve({
+      err,
+      results,
+      fields
+    });
+
+  });
 }
 
 module.exports = {
