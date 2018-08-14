@@ -17,21 +17,22 @@ router.post('/', async (req = {}, res) => {
   } = req.query || {};
 
   const {
-    err,
-    results
+    err: errSelect,
+    resultsSelect
   } = db.select({
     tableName: 'user_base_info',
     clause: `nickname="${nickname}"`,
   });
-  if (err) {
+  if (errSelect) {
     res.json({
       data: '',
       status: 0,
-      statusInfo: '数据库异常'
+      statusInfo: '数据库查询异常',
+      ok: false
     });
     return;
   }
-  if (results) {
+  if (resultsSelect) {
     res.json({
       data: '', // 返回的数据
       status: 0, // 状态码
@@ -48,8 +49,8 @@ router.post('/', async (req = {}, res) => {
   const avatar = 'static/avatar/lovely.jpeg';
   const credit = 100;
   const {
-    err,
-    results
+    err: errInsert,
+    results: resultsInsert
   } = await db.insert({
     tableName: 'user_base_info',
     data: {
@@ -64,20 +65,29 @@ router.post('/', async (req = {}, res) => {
     }
   });
 
-  res.json({
-    data: {
-      nickname,
-      password,
-      avatar,
-      mobile,
-      token,
-      userId,
-      credit // 信用值
-    }, // 返回的数据
-    status: 0, // 状态码
-    statusInfo: '',
-    ok: true
-  });
+  if (err) {
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '数据库插入异常',
+      ok: false
+    })
+  } else {
+    res.json({
+      data: {
+        nickname,
+        password,
+        avatar,
+        mobile,
+        token,
+        userId,
+        credit // 信用值
+      }, // 返回的数据
+      status: 0, // 状态码
+      statusInfo: '',
+      ok: true
+    });
+  }
 });
 
 module.exports = router;
