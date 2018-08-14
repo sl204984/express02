@@ -1,6 +1,6 @@
 const db = require('./db-conn');
 
-const select = function ({
+const update = function ({
   tableName,
   clause,
   data = {},
@@ -20,5 +20,5 @@ const select = function ({
 }
 
 module.exports = {
-  select
+  update
 };

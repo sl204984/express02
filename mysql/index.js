@@ -1,9 +1,19 @@
 const db = require('./db-conn');
 
-const insert = require('./insert');
-const del = require('./delete');
-const select = require('./select');
-const update = require('./update');
+const {
+  insert,
+  batchInsert
+} = require('./insert');
+const {
+  del
+} = require('./delete');
+const {
+  select,
+  limitSelect
+} = require('./select');
+const {
+  update
+} = require('./update');
 
 const query = db.query;
 
@@ -11,7 +21,9 @@ const query = db.query;
 module.exports = {
   query,
   insert,
+  batchInsert,
   del,
   select,
+  limitSelect,
   update
 }

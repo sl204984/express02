@@ -3,10 +3,7 @@ var md5 = require('md5-node');
 const {
   createId
 } = require('../../utils');
-const {
-  select,
-  insert
-} = require('../../mysql');
+const db = require('../../mysql');
 
 const router = express.Router();
 
@@ -18,8 +15,13 @@ router.post('/', (req = {}, res) => {
     mobile,
     submissionDate
   } = req.query || {};
+
+  db.select({
+    tableName: 'user_base_info',
+    clause: `nickname="${nickname}"`,
+  });
   const idLen = 20;
-  const timeStamp = (new Date()).getTime().toString(16);
+  const timeStamp = new Date().getTime().toString(36);
   const randomId = createId(idLen - timeStamp.length); // 1是 splitIndex 的长度
   const userId = randomId + timeStamp;
   const token = md5(submissionDate, userId);
