@@ -48,8 +48,7 @@ router.post('/', async (req = {}, res) => {
   const avatar = 'static/avatar/lovely.jpeg';
   const credit = 100;
   const {
-    err: errInsert,
-    results: resultsInsert
+    err: errInsert
   } = await db.insert({
     tableName: 'user_base_info',
     data: {
