@@ -4,7 +4,9 @@ const {
   createId
 } = require('../../utils');
 const db = require('../../mysql');
-
+const {
+  Decode
+} = require('../../utils/encode');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -74,7 +76,7 @@ router.post('/', async (req = {}, res) => {
       nickname,
       avatar,
       token,
-      password,
+      password: Decode(password),
       submission_date: submissionDate,
       mobile,
       credit
@@ -90,15 +92,7 @@ router.post('/', async (req = {}, res) => {
     })
   } else {
     res.json({
-      data: {
-        nickname,
-        password,
-        avatar,
-        mobile,
-        token,
-        userId,
-        credit // 信用值
-      }, // 返回的数据
+      data: '', // 返回的数据
       status: 0, // 状态码
       statusInfo: '',
       ok: true

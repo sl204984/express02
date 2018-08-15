@@ -1,7 +1,9 @@
 const express = require('express');
 var md5 = require('md5-node');
 const db = require('../../mysql');
-
+const {
+  Decode
+} = require('../../utils/encode');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -10,12 +12,13 @@ router.post('/', async (req = {}, res) => {
     password,
     submitDate
   } = req.body || {};
+  const _pwd = Decode(password);
   const {
     err: errSelect,
     results: resultsSelect
   } = await db.select({
     tableName: 'user_base_info',
-    clause: `nickname="${nickname}" AND password="${password}"`
+    clause: `nickname="${nickname}" AND password="${_pwd}"`
   });
   if (errSelect || resultsSelect.length > 1) {
     res.json({
