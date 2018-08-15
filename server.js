@@ -11,6 +11,7 @@ const indexRouter = require('./routers');
 const usersRouter = require('./routers/users');
 const registerRouter = require('./routers/register');
 const loginRouter = require('./routers/login');
+const forgetPwdRouter = require('./routers/forget-pwd');
 const uploadRouter = require('./routers/upload');
 const homeRouter = require('./routers/home-page');
 const searchRouter = require('./routers/search');
@@ -20,7 +21,6 @@ const allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header('Access-Control-Allow-Headers', 'x-custom');
   res.header('Access-Control-Allow-Credentials', 'true'); // 和客户端对应，必须设置以后，才能接收cookie.
-  // console.log(req.cookies);
   next();
 };
 
@@ -35,6 +35,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/forgetPwd', forgetPwdRouter);
 app.use('/upload', uploadRouter);
 app.use('/home', homeRouter);
 app.use('/search', searchRouter);
@@ -46,7 +47,3 @@ app.use("/static/shopping", express.static(__dirname + `/${CONFIG.static}/shoppi
 
 app.listen(CONFIG.port);
 console.log('listening to port ' + CONFIG.port);
-
-// db.query(`SELECT * FROM user_base_info`, (err, vals) => {
-//   console.log(err, vals);
-// });

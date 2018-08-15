@@ -1,21 +1,19 @@
 const express = require('express');
-var md5 = require('md5-node');
 const db = require('../../mysql');
 
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
   const {
-    nickname,
-    password,
-    submitDate
+    mobile,
+    password
   } = req.body || {};
   const {
     err: errSelect,
     results: resultsSelect
   } = await db.select({
     tableName: 'user_base_info',
-    clause: `nickname="${nickname}" AND password="${password}"`
+    clause: `mobile="${mobile}"`
   });
   if (errSelect || resultsSelect.length > 1) {
     res.json({
@@ -30,25 +28,22 @@ router.post('/', async (req = {}, res) => {
     res.json({
       data: '',
       status: 0,
-      statusInfo: '用户名或密码错误~',
+      statusInfo: '该号码尚未注册~',
       ok: false
     });
     return;
   }
   const {
-    avatar,
-    mobile,
-    user_id: userId,
-    credit
+    nickname,
+    user_id: userId
   } = resultsSelect[0];
-  const token = md5(submitDate, userId);
   const {
     err: errUpdate
   } = await db.update({
     tableName: 'user_base_info',
     clause: `user_id="${userId}"`,
     data: {
-      token
+      password
     }
   });
   if (errUpdate) {
@@ -63,13 +58,7 @@ router.post('/', async (req = {}, res) => {
   res.json({
     data: {
       nickname,
-      password,
-      submitDate,
-      avatar,
-      mobile,
-      token,
-      userId,
-      credit // 信用值
+      password
     }, // 返回的数据
     status: 0, // 状态码
     statusInfo: '',
