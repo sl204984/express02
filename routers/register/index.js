@@ -5,8 +5,8 @@ const {
 } = require('../../utils');
 const db = require('../../mysql');
 const {
-  Decode
-} = require('../../utils/encode');
+  encryption
+} = require('../../utils');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -76,7 +76,7 @@ router.post('/', async (req = {}, res) => {
       nickname,
       avatar,
       token,
-      password: Decode(password),
+      password: encryption.Decode(password),
       submission_date: submissionDate,
       mobile,
       credit

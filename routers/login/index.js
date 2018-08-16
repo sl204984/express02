@@ -2,8 +2,8 @@ const express = require('express');
 var md5 = require('md5-node');
 const db = require('../../mysql');
 const {
-  Decode
-} = require('../../utils/encode');
+  encryption
+} = require('../../utils');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -12,7 +12,7 @@ router.post('/', async (req = {}, res) => {
     password,
     submitDate
   } = req.body || {};
-  const _pwd = Decode(password);
+  const _pwd = encryption.Decode(password);
   const {
     err: errSelect,
     results: resultsSelect

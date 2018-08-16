@@ -1,8 +1,8 @@
 const express = require('express');
 const db = require('../../mysql');
 const {
-  Decode
-} = require('../../utils/encode');
+  encryption
+} = require('../../utils');
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -45,7 +45,7 @@ router.post('/', async (req = {}, res) => {
     tableName: 'user_base_info',
     clause: `user_id="${userId}"`,
     data: {
-      password: Decode(password)
+      password: encryption.Decode(password)
     }
   });
   if (errUpdate) {
