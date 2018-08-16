@@ -6,6 +6,4 @@ const CONFIG = Object.freeze({
   version: '0.0.1'
 });
 
-
-
 module.exports = CONFIG;

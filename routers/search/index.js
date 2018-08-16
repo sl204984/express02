@@ -12,11 +12,11 @@ router.post('/', (req, res) => {
     const imgCount = 5 + (Math.random() * 5 | 0);
     const imgList = [];
     for (let i = 0; i < imgCount; i++) {
-      imgList.push('static/shopping/' + imgs[Math.random() * imgs.length | 0])
+      imgList.push('shopping/' + imgs[Math.random() * imgs.length | 0])
     }
     const dataItem = {
       publisher: 'sl204984',
-      avatar: 'static/avatar/lovely.jpeg',
+      avatar: 'avatar/lovely.jpeg',
       shoppingName: '学习用品',
       imgList,
       location: '江苏南京',

@@ -65,7 +65,7 @@ router.post('/', async (req = {}, res) => {
   const randomId = createId(idLen - timeStamp.length); // 1是 splitIndex 的长度
   const userId = randomId + timeStamp;
   const token = md5(submissionDate, userId);
-  const avatar = 'static/avatar/lovely.jpeg';
+  const avatar = 'avatar/lovely.jpeg';
   const credit = 100;
   const {
     err: errInsert
