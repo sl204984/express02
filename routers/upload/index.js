@@ -3,11 +3,10 @@
 const express = require('express');
 const ShoppingUpload = require('./shopping');
 const AvatarUpload = require('./avatar');
-const QiniuUpload = require('./qiniu-upload');
+const QiniuShopping = require('./qiniu-shopping');
 const router = express.Router();
 
 router.post('/avatar', AvatarUpload.upload, AvatarUpload.callback);
 router.post('/shopping', ShoppingUpload.upload, ShoppingUpload.callback);
-router.post('/qiniu', QiniuUpload);
-
+router.post('/qiniu/shopping', QiniuShopping);
 module.exports = router;
