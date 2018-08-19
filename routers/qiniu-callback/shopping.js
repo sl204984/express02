@@ -1,3 +1,5 @@
+const db = require('../../mysql');
+
 const callback = async function (req, res) {
   const {
     key,
@@ -10,6 +12,7 @@ const callback = async function (req, res) {
       statusInfo: '数据错误',
       ok: false
     })
+    return;
   }
   const {
     err: errSelect,
@@ -37,6 +40,14 @@ const callback = async function (req, res) {
         imgsrc: key
       }
     });
+    if (errInsert) {
+      res.json({
+        data: '',
+        status: 0,
+        statusInfo: '数据库插入异常~',
+        ok: false
+      })
+    }
   }
   res.json({
     data: '',
