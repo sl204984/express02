@@ -9,16 +9,15 @@ const callback = async function (req, res) {
     type,
     count,
     store,
-    desc,
+    description,
     location,
     university,
     shipFee
   } = req.body;
-
   const {
     err: errInsert
   } = await db.insert({
-    tableName: 'shopping_imgs',
+    tableName: 'shopping_info',
     data: {
       shopping_id: shoppingId,
       user_id: userId,
@@ -27,13 +26,23 @@ const callback = async function (req, res) {
       type,
       count,
       store,
-      desc,
+      description,
       location,
       university,
-      ship_fee: shipFee
+      ship_fee: shipFee || 0
     }
   });
+  console.log(errInsert);
 
+  if (errInsert) {
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '数据库保存失败~',
+      ok: false
+    });
+    return;
+  }
 
   res.json({
     data: '',

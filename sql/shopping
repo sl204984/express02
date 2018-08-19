@@ -8,7 +8,7 @@ CREATE TABLE `shopping_info` (
   `type` tinyint(4) NOT NULL,
   `count` smallint(5) DEFAULT '1',
   `store` smallint(5) unsigned DEFAULT '9999',
-  `desc` varchar(600) DEFAULT NULL,
+  `description` varchar(600) DEFAULT NULL,
   `location` varchar(140) NOT NULL,
   `university` varchar(40) DEFAULT NULL,
   `ship_fee` smallint(5) unsigned NOT NULL,
