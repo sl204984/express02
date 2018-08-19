@@ -15,6 +15,7 @@ const forgetPwdRouter = require('./routers/forget-pwd');
 const uploadRouter = require('./routers/upload');
 const homeRouter = require('./routers/home-page');
 const searchRouter = require('./routers/search');
+const qiniuRouter = require('./routers/qiniu-callback');
 // 支持跨域配置
 const allowCrossDomain = function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -39,6 +40,7 @@ app.use('/forgetPwd', forgetPwdRouter);
 app.use('/upload', uploadRouter);
 app.use('/home', homeRouter);
 app.use('/search', searchRouter);
+app.use('/qiniu', qiniuRouter);
 
 // 静态文件
 app.use("/static/avatar", express.static(__dirname + `/${CONFIG.static}/avatar`));

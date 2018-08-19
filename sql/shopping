@@ -14,3 +14,10 @@ CREATE TABLE `shopping_info` (
   `ship_fee` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`,`shopping_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+## 商品图片
+CREATE TABLE `shopping_imgs` (
+  `shopping_id` varchar(20) NOT NULL,
+  `imgsrc` varchar(50) NOT NULL,
+  PRIMARY KEY (`imgsrc`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

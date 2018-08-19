@@ -1,4 +1,7 @@
 const qiniu = require('qiniu');
+const {
+  createId
+} = require('../../utils');
 
 const accessKey = '7mtg9snbUxRM6eiuWDqaLhDbROWpmeWLAaSRzHmJ';
 const secretKey = 'NFV6JT3DpV0yJRIefAP1dELF9spUlEJ9CgyJX274';
@@ -10,18 +13,22 @@ const callback = function (req, res) {
     shoppingId
   } = req.body;
 
+  const idLen = 20 - 2;
   const tokenArr = [];
-  const _shoppingId = shoppingId || 'a_sl204984_';
   const now = new Date();
+  const time = now.getTime();
+  const timeStamp = time.toString(36);
+  const _shoppingId = shoppingId ||
+    ('SN' + createId(idLen - timeStamp.length) + timeStamp);
 
   for (let item of suffArr) {
     const key = 'shopping/' + _shoppingId + item;
     const options = {
       scope: 'shoppingproject:' + key, // 上传空间
-      deadline: now.getTime() / 1000 + 600, // 单位为秒
-      // callbackUrl: 'http://47.99.72.101/qiniu/shopping/imgs/callback',
-      // callbackBody: '{"key":"$(key)","hash":"$(etag)","shopId":"$(x:shopId)"}',
-      returnBody: '{"key":"$(key)","hash":"$(etag)","shopId":"$(x:shopId)"}'
+      deadline: time / 1000 + 600, // 单位为秒
+      callbackUrl: 'http://47.99.72.101/qiniu/shopping/callback',
+      callbackBody: '{"key":"$(key)","hash":"$(etag)","shopingId":"$(x:shopingId)"}',
+      returnBody: '{"key":"$(key)","hash":"$(etag)"}'
     };
     const putPolicy = new qiniu.rs.PutPolicy(options);
     const uploadToken = putPolicy.uploadToken(mac);
