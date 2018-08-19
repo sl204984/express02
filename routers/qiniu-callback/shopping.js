@@ -5,8 +5,6 @@ const callback = async function (req, res) {
     key,
     shoppingId
   } = req.body;
-  console.log(req);
-  console.log(req.body);
   if (!key || !shoppingId) {
     res.json({
       data: {
