@@ -1,31 +1,46 @@
-const multer = require('multer');
-const CONFIG = require('../../config');
+const db = require('../../mysql');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, `./${CONFIG.static}/shopping`)
-  },
-  filename: function (req, file, cb) {
-    // file.mimetypes  图片格式：image/jpeg | image/png
-    // cb(null, false)
-    cb(null, file.originalname)
-    // cb(null, file.fieldname + '-' + Date.now())
-  }
-})
+const callback = async function (req, res) {
+  const {
+    shoppingId,
+    userId,
+    shoppingName,
+    price,
+    type,
+    count,
+    store,
+    desc,
+    location,
+    university,
+    shipFee
+  } = req.body;
 
-const upload = multer({
-  storage: storage
-});
-
-exports.upload = upload.array('files', 5);
-exports.callback = function (req, res, next) {
-  // req.files is array of `photos` files
-  // req.body will contain the text fields, if there were any
-  // console.dir(req.files)
-  res.json({
-    status: 0,
-    ok: true,
-    message: '操作成功',
-    data: {}
+  const {
+    err: errInsert
+  } = await db.insert({
+    tableName: 'shopping_imgs',
+    data: {
+      shopping_id: shoppingId,
+      user_id: userId,
+      shopping_name: shoppingName,
+      price,
+      type,
+      count,
+      store,
+      desc,
+      location,
+      university,
+      ship_fee: shipFee
+    }
   });
-};
+
+
+  res.json({
+    data: '',
+    status: 0,
+    statusInfo: '',
+    ok: true
+  });
+}
+
+module.exports = callback;
