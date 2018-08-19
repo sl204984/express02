@@ -7,7 +7,10 @@ const callback = async function (req, res) {
   } = req.body;
   if (!key || !shoppingId) {
     res.json({
-      data: '',
+      data: {
+        key,
+        shoppingId
+      },
       status: 0,
       statusInfo: '数据错误',
       ok: false
