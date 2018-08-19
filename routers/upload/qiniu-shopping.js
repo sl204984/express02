@@ -22,12 +22,12 @@ const callback = function (req, res) {
     ('SN' + createId(idLen - timeStamp.length) + timeStamp);
 
   for (let item of suffArr) {
-    const key = 'shopping/' + _shoppingId + item;
+    const key = 'shopping/' + _shoppingId + '_' + item;
     const options = {
       scope: 'shoppingproject:' + key, // 上传空间
       deadline: time / 1000 + 600, // 单位为秒
       callbackUrl: 'http://47.99.72.101/qiniu/shopping/callback',
-      callbackBody: `key=$(key)&hash=$(etag)&shopingId=$(x:shopingId)`,
+      callbackBody: `key=$(key)&hash=$(etag)&shoppingId=$(x:shoppingId)`,
       // returnBody: '{"key":"$(key)","hash":"$(etag)"}'
     };
     const putPolicy = new qiniu.rs.PutPolicy(options);
