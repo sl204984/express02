@@ -8,7 +8,6 @@ const callback = async function (req, res) {
   if (!key || !shoppingId) {
     res.json({
       data: {
-        body: res,
         key,
         shoppingId
       },
