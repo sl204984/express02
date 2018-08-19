@@ -10,7 +10,7 @@ CREATE TABLE `shopping_info` (
   `store` smallint(5) unsigned DEFAULT '9999',
   `description` varchar(600) DEFAULT NULL,
   `location` varchar(80) NOT NULL,
-  `locationDetail` varchar(100) DEFAULT NULL,
+  `locationDetail` varchar(100) NOT NULL,
   `university` varchar(40) DEFAULT NULL,
   `ship_fee` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`,`shopping_id`)
