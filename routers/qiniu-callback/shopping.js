@@ -3,7 +3,14 @@ const callback = async function (req, res) {
     key,
     shoppingId
   } = req.body;
-
+  if (!key || !shoppingId) {
+    res.json({
+      data: '',
+      status: 0,
+      statusInfo: '数据错误',
+      ok: false
+    })
+  }
   const {
     err: errSelect,
     results: resultsSelect
