@@ -28,9 +28,9 @@ const callback = function (req, res) {
       deadline: time / 1000 + 600, // 单位为秒
       callbackUrl: 'http://47.99.72.101/qiniu/shopping/callback',
       callbackBody: {
-        key: "$(key)",
-        hash: "$(etag)",
-        shopingId: "$(x:shopingId)"
+        "key": "$(key)",
+        "hash": "$(etag)",
+        "shopingId": "$(x:shopingId)"
       },
       // returnBody: '{"key":"$(key)","hash":"$(etag)"}'
     };
