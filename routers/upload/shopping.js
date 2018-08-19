@@ -11,6 +11,7 @@ const callback = async function (req, res) {
     store,
     description,
     location,
+    locationDetail,
     university,
     shipFee
   } = req.body;
@@ -28,11 +29,11 @@ const callback = async function (req, res) {
       store,
       description,
       location,
+      locationDetail,
       university,
       ship_fee: shipFee || 0
     }
   });
-  console.log(errInsert);
 
   if (errInsert) {
     res.json({

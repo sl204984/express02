@@ -9,11 +9,12 @@ CREATE TABLE `shopping_info` (
   `count` smallint(5) DEFAULT '1',
   `store` smallint(5) unsigned DEFAULT '9999',
   `description` varchar(600) DEFAULT NULL,
-  `location` varchar(140) NOT NULL,
+  `location` varchar(80) NOT NULL,
+  `locationDetail` varchar(100) DEFAULT NULL,
   `university` varchar(40) DEFAULT NULL,
   `ship_fee` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`,`shopping_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
 
 ## 商品图片
 CREATE TABLE `shopping_imgs` (
