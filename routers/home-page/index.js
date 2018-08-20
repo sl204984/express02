@@ -9,30 +9,29 @@ router.post('/', async (req, res) => {
     type,
     detail = []
   } = req.body;
-  // if (!(detail instanceof Array) || detail.length === 0) {
-  //   res.json({
-  //     data: '', // 返回的数据
-  //     status: 0, // 状态码
-  //     statusInfo: '数据请求错误~',
-  //     ok: false
-  //   })
-  //   return;
-  // }
+  if (!(detail instanceof Array) || detail.length === 0) {
+    res.json({
+      data: '', // 返回的数据
+      status: 0, // 状态码
+      statusInfo: '数据请求错误~',
+      ok: false
+    })
+    return;
+  }
 
   // 查询商品
-  let clause = `id>"${-1}"`;
-  // if (type === 0) { // 新鲜
-  //   const clauseArr = [];
-  //   for (let item of detail) {
-  //     clauseArr.push(`index>"${item.start}" AND type="${item.type}"`);
-  //   }
-  //   clause = clauseArr.join(' OR ');
-  // } else {
-  //   for (let item of detail) {
-  //     clauseArr.push(`index>"${item.start}" AND type="${type}"`);
-  //   }
-  //   clause = clauseArr.join(' OR ');
-  // }
+  if (type === 0) { // 新鲜
+    const clauseArr = [];
+    for (let item of detail) {
+      clauseArr.push(`index>"${item.start - 1}" AND type="${item.type}"`);
+    }
+    clause = clauseArr.join(' OR ');
+  } else {
+    for (let item of detail) {
+      clauseArr.push(`index>"${item.start - 1}" AND type="${type}"`);
+    }
+    clause = clauseArr.join(' OR ');
+  }
   const {
     err: errSelect,
     results: resultsSelect
