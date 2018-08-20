@@ -13,6 +13,15 @@ const callback = function (req, res) {
     shoppingId
   } = req.body;
 
+  if (!(suffArr instanceof Array)) {
+    return res.json({
+      data: '', // 返回的数据
+      status: 0, // 状态码
+      statusInfo: null,
+      ok: false
+    });
+  }
+
   const idLen = 20 - 2;
   const tokenArr = [];
   const now = new Date();
