@@ -13,8 +13,9 @@ CREATE TABLE `shopping_info` (
   `locationDetail` varchar(100) NOT NULL,
   `university` varchar(40) DEFAULT NULL,
   `ship_fee` smallint(5) unsigned NOT NULL,
+  `publish_date` date NOT NULL,
   PRIMARY KEY (`id`,`shopping_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 ## 商品图片
 CREATE TABLE `shopping_imgs` (

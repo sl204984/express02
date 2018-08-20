@@ -13,7 +13,8 @@ const callback = async function (req, res) {
     location,
     locationDetail,
     university,
-    shipFee
+    shipFee,
+    publishDate
   } = req.body;
   const {
     err: errInsert
@@ -31,7 +32,8 @@ const callback = async function (req, res) {
       location,
       locationDetail,
       university,
-      ship_fee: shipFee || 0
+      ship_fee: shipFee || 0,
+      publish_date: publishDate
     }
   });
 
