@@ -1,47 +1,148 @@
 const express = require('express');
 const router = express.Router();
+const db = require('../../mysql');
 
 router.post('/', async (req, res) => {
   const {
     pageSize,
     pageNum,
     type,
-    detail
+    detail = []
   } = req.body;
+  // if (!(detail instanceof Array) || detail.length === 0) {
+  //   res.json({
+  //     data: '', // 返回的数据
+  //     status: 0, // 状态码
+  //     statusInfo: '数据请求错误~',
+  //     ok: false
+  //   })
+  //   return;
+  // }
+
+  // 查询商品
+  let clause = `id>"${-1}"`;
+  // if (type === 0) { // 新鲜
+  //   const clauseArr = [];
+  //   for (let item of detail) {
+  //     clauseArr.push(`index>"${item.start}" AND type="${item.type}"`);
+  //   }
+  //   clause = clauseArr.join(' OR ');
+  // } else {
+  //   for (let item of detail) {
+  //     clauseArr.push(`index>"${item.start}" AND type="${type}"`);
+  //   }
+  //   clause = clauseArr.join(' OR ');
+  // }
+  const {
+    err: errSelect,
+    results: resultsSelect
+  } = await db.loSelect({
+    tableName: 'shopping_info',
+    clause: clause,
+    limit: pageSize
+  });
+  if (errSelect) {
+    console.log(errSelect);
+    res.json({
+      data: '', // 返回的数据
+      status: 0, // 状态码
+      statusInfo: '数据库查询错误~',
+      ok: false
+    });
+    return;
+  }
+  // 如果没有查到任何数据，直接返回
+  if (resultsSelect.length === 0) {
+    res.json({
+      data: {
+        data: [],
+        pageSize,
+        pageNum: pageNum + 1,
+        type,
+        end: true
+      }, // 返回的数据
+      status: 0, // 状态码
+      statusInfo: null,
+      ok: true
+    });
+    return;
+  }
+  // 如果有数据
   const data = [];
   const imgs = ['pen.jpeg', 'lipstick.jpeg', 'fan.jpg', 'download.jpg', 'book.jpg'];
-  for (let i = 0; i < pageSize; i++) {
-    const imgCount = 5 + (Math.random() * 5 | 0);
-    const imgList = [];
-    for (let i = 0; i < imgCount; i++) {
-      imgList.push('shopping/' + imgs[Math.random() * imgs.length | 0])
+  const userInfoList = [];
+  for (let item of resultsSelect) {
+    // 获取图片信息
+    const {
+      err: imgErr,
+      results: imgRes
+    } = await db.select({
+      tableName: 'shopping_imgs',
+      columns: ['imgsrc'],
+      clause: `shopping_id="${item.shopping_id}"`
+    });
+    if (imgErr) {
+      res.json({
+        data: '', // 返回的数据
+        status: 0, // 状态码
+        statusInfo: '数据库查询错误~',
+        ok: false
+      });
+      return;
     }
-    const dataItem = {
-      publisher: 'sl204984',
-      avatar: 'avatar/lovely.jpeg',
-      shoppingName: '学习用品',
-      imgList,
-      location: '江苏南京',
-      desc: '这是商品详情，需要在0到300字之间',
-      price: 60,
-      shipFee: 3,
-      point: 100,
-      key: 'key-' + Math.random()
-    };
-    data.push(dataItem);
+    // 获取用户信息
+    let userInfo = userInfoList.filter(
+      userItem => item.user_id === userItem.user_id
+    )[0];
+    if (!userInfo) { // 不存在用户信息
+      const {
+        err,
+        results
+      } = await db.select({
+        tableName: 'user_base_info',
+        clause: `user_id="${item.user_id}"`
+      });
+      if (err) {
+        res.json({
+          data: '', // 返回的数据
+          status: 0, // 状态码
+          statusInfo: '数据库查询错误~',
+          ok: false
+        });
+        return;
+      }
+      userInfo = results[0];
+      userInfoList.push(userInfo);
+    }
+
+    data.push({
+      publisher: userInfo.nickname,
+      avatar: userInfo.avatar,
+      shoppingName: item.shopping_name,
+      imgList: imgRes.map(item => item.imgsrc),
+      location: item.location,
+      desc: item.description,
+      price: item.price,
+      shipFee: item.ship_fee,
+      point: userInfo.credit,
+      key: item.shopping_id
+    });
   }
+
+  const end = (data.length !== pageSize) || (pageNum > 9);
   res.json({
     data: {
       data,
       pageSize,
       pageNum: pageNum + 1,
       type,
-      end: pageNum > 9
+      end
     }, // 返回的数据
     status: 0, // 状态码
     statusInfo: null,
     ok: true
   });
+
 });
 
 module.exports = router;

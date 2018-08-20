@@ -9,7 +9,7 @@ const {
 } = require('./delete');
 const {
   select,
-  limitSelect
+  loSelect
 } = require('./select');
 const {
   update
@@ -24,6 +24,6 @@ module.exports = {
   batchInsert,
   del,
   select,
-  limitSelect,
+  loSelect,
   update
 }

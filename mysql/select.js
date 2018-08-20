@@ -24,15 +24,14 @@ const select = function ({
       fields
     });
   });
-
-
 }
 
-const limitSelect = function ({
+const loSelect = function ({
   tableName,
   clause,
   columns = [],
-  limit = 10
+  limit = 10,
+  offset = 0
 } = {}) {
   let columnName;
   if (columns.length !== 0) {
@@ -46,7 +45,7 @@ const limitSelect = function ({
       err,
       results,
       fields
-    } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause} LIMIT ${limit}`);
+    } = await db.query(`SELECT ${columnName} FROM ${tableName} WHERE ${clause} LIMIT ${limit} OFFSET ${offset}`);
 
     resolve({
       err,
@@ -59,5 +58,5 @@ const limitSelect = function ({
 
 module.exports = {
   select,
-  limitSelect
+  loSelect
 };
