@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
     })
     return;
   }
-
+  let clause = '';
   // 查询商品
   if (type === 0) { // 新鲜
     const clauseArr = [];
