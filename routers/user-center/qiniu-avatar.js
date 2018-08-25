@@ -21,8 +21,9 @@ const callback = function (req, res) {
     });
   }
 
-  const key = 'avatar/' + sourceKey;
+  const now = new Date();
   const time = now.getTime();
+  const key = 'avatar/' + sourceKey;
   const options = {
     scope: 'shoppingproject:' + key, // 上传空间
     deadline: time / 1000 + 600, // 单位为秒
