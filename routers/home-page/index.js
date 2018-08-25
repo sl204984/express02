@@ -19,18 +19,18 @@ router.post('/', async (req, res) => {
     return;
   }
   let clause = '';
-
+  console.log(detail)
   // 查询商品
   if (type === 0) { // 新鲜
     const clauseArr = [];
     for (let item of detail) {
-      clauseArr.push(`index>"${item.start - 1}" AND type="${item.type}"`);
+      clauseArr.push(`id>"${item.start - 1}" AND type="${item.type}"`);
     }
     clause = clauseArr.join(' OR ');
   } else {
     const clauseArr = [];
     for (let item of detail) {
-      clauseArr.push(`index>"${item.start - 1}" AND type="${type}"`);
+      clauseArr.push(`id>"${item.start - 1}" AND type="${type}"`);
     }
     clause = clauseArr.join(' OR ');
   }
