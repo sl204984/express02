@@ -29,11 +29,7 @@ router.post('/', async (req, res) => {
     }
     clause = clauseArr.join(' OR ');
   } else {
-    const clauseArr = [];
-    for (let item of detail) {
-      clauseArr.push(`id>"${start - 1}" AND type="${type}"`);
-    }
-    clause = clauseArr.join(' OR ');
+    clause = `id>"${start - 1}" AND type="${type}"`
   }
   const {
     err: errSelect,
