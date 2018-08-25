@@ -19,6 +19,7 @@ router.post('/', async (req, res) => {
     return;
   }
   let clause = '';
+
   // 查询商品
   if (type === 0) { // 新鲜
     const clauseArr = [];
@@ -32,6 +33,7 @@ router.post('/', async (req, res) => {
     }
     clause = clauseArr.join(' OR ');
   }
+  console.log(req.body, clause)
   const {
     err: errSelect,
     results: resultsSelect
