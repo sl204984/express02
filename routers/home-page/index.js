@@ -7,6 +7,7 @@ router.post('/', async (req, res) => {
     pageSize,
     pageNum,
     type,
+    start = 0,
     detail = []
   } = req.body;
   if (!(detail instanceof Array) || detail.length === 0) {
@@ -23,13 +24,14 @@ router.post('/', async (req, res) => {
   if (type === 0) { // 新鲜
     const clauseArr = [];
     for (let item of detail) {
-      clauseArr.push(`id>"${item.start - 1}" AND type="${item.type}"`);
+      // clauseArr.push(`id>"${item.start - 1}" AND type="${item.type}"`);
+      clauseArr.push(`id>"${item.start - 1}"`);
     }
     clause = clauseArr.join(' OR ');
   } else {
     const clauseArr = [];
     for (let item of detail) {
-      clauseArr.push(`id>"${item.start - 1}" AND type="${type}"`);
+      clauseArr.push(`id>"${start - 1}" AND type="${type}"`);
     }
     clause = clauseArr.join(' OR ');
   }
@@ -42,7 +44,6 @@ router.post('/', async (req, res) => {
     limit: pageSize
   });
   if (errSelect) {
-    console.log(errSelect);
     res.json({
       data: '', // 返回的数据
       status: 0, // 状态码
