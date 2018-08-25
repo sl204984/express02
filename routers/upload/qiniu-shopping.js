@@ -17,12 +17,12 @@ const callback = function (req, res) {
     return res.json({
       data: '', // 返回的数据
       status: 0, // 状态码
-      statusInfo: null,
+      statusInfo: '数据格式错误~',
       ok: false
     });
   }
 
-  const idLen = 20 - 2;
+  const idLen = 20 - 2; // 2 是SN的长度
   const tokenArr = [];
   const now = new Date();
   const time = now.getTime();
@@ -36,8 +36,7 @@ const callback = function (req, res) {
       scope: 'shoppingproject:' + key, // 上传空间
       deadline: time / 1000 + 600, // 单位为秒
       callbackUrl: 'http://47.99.72.101/qiniu/shopping/callback',
-      callbackBody: `key=$(key)&hash=$(etag)&shoppingId=$(x:shoppingId)`,
-      // returnBody: '{"key":"$(key)","hash":"$(etag)"}'
+      callbackBody: `key=$(key)&hash=$(etag)&shoppingId=$(x:shoppingId)`
     };
     const putPolicy = new qiniu.rs.PutPolicy(options);
     const uploadToken = putPolicy.uploadToken(mac);
