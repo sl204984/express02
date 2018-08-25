@@ -6,6 +6,8 @@
 const express = require('express');
 const router = express.Router();
 const ShoppingCallback = require('./shopping');
+const AvatarCallback = require('./avatar');
 
 router.post('/shopping/callback', ShoppingCallback);
+router.post('/avatar/callback', AvatarCallback);
 module.exports = router;
