@@ -4,6 +4,8 @@ const db = require('../../mysql');
 const {
   encryption
 } = require('../../utils');
+const msgCode = require('./msg-code');
+
 const router = express.Router();
 
 router.post('/', async (req = {}, res) => {
@@ -79,5 +81,7 @@ router.post('/', async (req = {}, res) => {
     ok: true
   });
 });
+
+router.post('/msgCode', msgCode);
 
 module.exports = router;
